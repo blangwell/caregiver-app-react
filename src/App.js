@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import Home from './components/Home';
-import Login from './components/Login';
+import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import Nav from './components/Nav';
 
@@ -16,11 +16,11 @@ function App() {
         <Nav />
         <Switch>
           <Route path="/login">
-            <Login />
+            <LoginForm />
           </Route>
-          <Route path="/signup">
+          {/* <Route path="/signup">
             <Signup />
-          </Route>
+          </Route> */}
           {/* "/" route must be last <Switch> looks through its children <Route>s and
             renders the first one that matches */}
           <Route path="/">
