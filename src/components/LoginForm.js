@@ -1,10 +1,9 @@
-import axios from 'axios';
 import { useFormik } from 'formik';
 import { Link as ReactRouterDomLink, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Container from '@material-ui/core/Container';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -42,29 +41,11 @@ const LoginForm = (props) => {
       password: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      postLogin(values);
+    onSubmit: async (values) => {
+      await props.handleLogin(values);
+      history.push('/profile');
     }
   });
-
-  const postLogin = async (values) => {
-    console.log(values);
-    try {
-      const response = await axios.post('http://localhost:8000/login', {
-        email: values.email,
-        password: values.password,
-        withCredentials: true
-      });
-
-      const { token } = response.data;
-      localStorage.setItem('jwt', token);
-      const decoded = jwt_decode(token);
-      props.setCurrentUser(decoded);
-      history.push('/profile');
-    } catch (err) {
-      console.log(err);
-    };
-  };  
 
   return (
       <Container maxWidth="xs" >

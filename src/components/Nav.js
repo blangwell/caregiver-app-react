@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -40,6 +41,7 @@ export default function Nav(props) {
   };
 
   const drawerList = () => (
+    <ClickAwayListener onClickAway={toggleDrawer(false)}>
     <div
       className={classes.drawerList}
       role="presentation"
@@ -57,8 +59,7 @@ export default function Nav(props) {
         <ListItem 
           button 
           component={ Link } 
-          to={props.currentUser ? '/profile' : '/login'} 
-          onClick={props.handleLogout}
+          to="/profile"
         >
           <ListItemText primary="Profile" />
         </ListItem>
@@ -78,6 +79,7 @@ export default function Nav(props) {
         </ListItem>
       </List>
     </div>
+    </ClickAwayListener>
   )
 
   return (
