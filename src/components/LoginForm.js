@@ -11,20 +11,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import * as Yup from 'yup';
 
-const postLogin = async (values) => {
-  console.log(values);
-  try {
-    const response = await axios.post('http://localhost:8000/login', {
-      email: values.email,
-      password: values.password,
-      withCredentials: true
-    });
-    console.log(response);
-  } catch (err) {
-    console.log(err);
-  };
-};
-
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(8),
@@ -45,7 +31,7 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Required'),
 });
 
-const LoginForm = () => {
+const LoginForm = props => {
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -57,6 +43,22 @@ const LoginForm = () => {
       postLogin(values);
     }
   });
+
+  const postLogin = async (values) => {
+    console.log(values);
+    try {
+      const response = await axios.post('http://localhost:8000/login', {
+        email: values.email,
+        password: values.password,
+        withCredentials: true
+      });
+      console.log(response);
+      props.setCurrentUser(response.data);
+    } catch (err) {
+      console.log(err);
+    };
+  };  
+
   return (
       <Container maxWidth="xs" >
         <div className={classes.root}>
@@ -90,10 +92,10 @@ const LoginForm = () => {
                 error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button 
                 color="primary" 
                 type="submit"

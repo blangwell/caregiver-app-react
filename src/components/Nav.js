@@ -47,8 +47,12 @@ export default function Nav(props) {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Home'].map((text, idx) => (
-            <ListItem button key={text} component={ Link } to="/">
+        {['Home', 'Profile'].map((text, idx) => (
+            <ListItem 
+              button 
+              key={text} 
+              component={ Link } to={text === 'Home' ? '/' : '/' + text.toLowerCase()}
+            >
               <ListItemText primary={text} />
             </ListItem>
         ))}
@@ -68,14 +72,12 @@ export default function Nav(props) {
     <div className={classes.root}>
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <MenuIcon 
-            onClick={toggleDrawer(true)}
-          />
-          <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
+        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+          <MenuIcon />
+        </IconButton>
+          <Drawer open={drawerOpen} >
             {drawerList()}
           </Drawer>
-        </IconButton>
         <Typography variant="h6" className={classes.title}>
           Caregiver Charting
         </Typography>
