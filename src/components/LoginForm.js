@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { Link as ReactRouterDomLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Container from '@material-ui/core/Container';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -58,50 +60,56 @@ const LoginForm = () => {
   return (
       <Container maxWidth="xs" >
         <div className={classes.root}>
-        <Typography variant="h5" component="h1">Login</Typography>
-        <form onSubmit={formik.handleSubmit} className={classes.form}>
-          <TextField 
-            id="email"
-            name="email"
-            type="email"
-            label="Email Address *" 
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField 
-            id="password"
-            name="password"
-            type="password"
-            label="Password *"
-            variant="outlined" 
-            margin="normal"
-            fullWidth
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button 
-            color="primary" 
-            type="submit"
-            variant="contained"
-            fullWidth
-            className={classes.submit}
-          >
-            Login
-          </Button>
-        </form>
+          <Typography variant="h5" component="h1">Login</Typography>
+            <form onSubmit={formik.handleSubmit} className={classes.form}>
+              <TextField 
+                id="email"
+                name="email"
+                type="email"
+                label="Email Address *" 
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+              <TextField 
+                id="password"
+                name="password"
+                type="password"
+                label="Password *"
+                variant="outlined" 
+                margin="normal"
+                fullWidth
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button 
+                color="primary" 
+                type="submit"
+                variant="contained"
+                fullWidth
+                className={classes.submit}
+              >
+                Login
+              </Button>
+            </form>
+            <Link 
+              component={ReactRouterDomLink}
+              to="/signup"
+            >
+              Don't have an account? Sign Up
+            </Link>
         </div>
       </Container>
   );

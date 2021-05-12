@@ -47,8 +47,8 @@ export default function Nav(props) {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Home', 'Profile'].map((text, idx) => (
-            <ListItem button key={text}>
+        {['Home'].map((text, idx) => (
+            <ListItem button key={text} component={ Link } to="/">
               <ListItemText primary={text} />
             </ListItem>
         ))}
@@ -64,19 +64,6 @@ export default function Nav(props) {
     </div>
   )
 
-    // <nav>
-    //   <ul>
-    //     <li>
-    //       <Link to="/">Home</Link>
-    //     </li>
-    //     <li>
-    //        <Link to="/login">Login</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/signup">Signup</Link>
-    //     </li>
-    //   </ul>
-    // </nav> 
   return (
     <div className={classes.root}>
     <AppBar position="static">
