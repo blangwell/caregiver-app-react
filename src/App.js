@@ -1,7 +1,8 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
+import jwt_decode from 'jwt-decode';
 import Home from './components/Home';
 import LoginForm from './components/LoginForm';
 import Nav from './components/Nav';
@@ -12,13 +13,22 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    
-  })
+    const token = localStorage.getItem('jwt');
+    if (token) setCurrentUser(jwt_decode(token));
+    else setCurrentUser(null)
+  }, [])
+
+  const handleLogout = () => {
+    if (localStorage.getItem('jwt')) {
+      localStorage.removeItem('jwt');
+      setCurrentUser(null);
+    }
+  }
 
   return (
     <Router>
       <CssBaseline />   
-      <Nav />
+      <Nav currentUser={currentUser} handleLogout={handleLogout} />
       <Switch>
         <Route path="/login">
           <LoginForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
@@ -27,10 +37,8 @@ function App() {
           <SignupForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
         </Route>
         <Route path="/profile">
-          <Profile currentUser={currentUser} setCurrentUser={setCurrentUser} />
+          { currentUser ? <Profile currentUser={currentUser} /> : <Redirect to="/login"/> }
         </Route>
-        {/* "/" route must be last <Switch> looks through its children <Route>s and
-          renders the first one that matches */}
         <Route path="/">
           <Home />
         </Route>

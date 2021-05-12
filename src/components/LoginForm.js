@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { Link as ReactRouterDomLink } from 'react-router-dom';
+import { Link as ReactRouterDomLink, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Container from '@material-ui/core/Container';
@@ -9,6 +9,7 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import jwt_decode from 'jwt-decode';
 import * as Yup from 'yup';
 
 const useStyles = makeStyles(theme => ({
@@ -31,8 +32,10 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Required'),
 });
 
-const LoginForm = props => {
+const LoginForm = (props) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -52,8 +55,12 @@ const LoginForm = props => {
         password: values.password,
         withCredentials: true
       });
-      console.log(response);
-      props.setCurrentUser(response.data);
+
+      const { token } = response.data;
+      localStorage.setItem('jwt', token);
+      const decoded = jwt_decode(token);
+      props.setCurrentUser(decoded);
+      history.push('/profile');
     } catch (err) {
       console.log(err);
     };

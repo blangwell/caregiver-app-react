@@ -45,17 +45,23 @@ export default function Nav(props) {
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
-    >
+    >      
       <List>
-        {['Home', 'Profile'].map((text, idx) => (
-            <ListItem 
-              button 
-              key={text} 
-              component={ Link } to={text === 'Home' ? '/' : '/' + text.toLowerCase()}
-            >
-              <ListItemText primary={text} />
-            </ListItem>
-        ))}
+        <ListItem
+          button
+          component={ Link }
+          to="/"
+        >
+          <ListItemText primary="Home"/>
+        </ListItem>
+        <ListItem 
+          button 
+          component={ Link } 
+          to={props.currentUser ? '/profile' : '/login'} 
+          onClick={props.handleLogout}
+        >
+          <ListItemText primary="Profile" />
+        </ListItem>
       </List>
       <Divider />
       <List>
@@ -65,31 +71,37 @@ export default function Nav(props) {
             </ListItem>
         ))}
       </List>
+      <Divider />
+      <List>
+        <ListItem button component={ Link } to={'/logout'} onClick={props.handleLogout}>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
     </div>
   )
 
   return (
     <div className={classes.root}>
-    <AppBar position="static">
-      <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
-          <MenuIcon />
-        </IconButton>
-          <Drawer open={drawerOpen} >
-            {drawerList()}
-          </Drawer>
-        <Typography variant="h6" className={classes.title}>
-          Caregiver Charting
-        </Typography>
-        <Button 
-          color="inherit"
-          component={ Link }
-          to="/login"
-        >
-          Login
-        </Button>
-      </Toolbar>
-    </AppBar>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+            <MenuIcon />
+          </IconButton>
+            <Drawer open={drawerOpen}>
+              {drawerList()}
+            </Drawer>
+          <Typography variant="h6" className={classes.title}>
+            Caregiver Charting
+          </Typography>
+          <Button 
+            color="inherit"
+            component={ Link }
+            to="/login"
+          >
+            Login
+          </Button>
+        </Toolbar>
+      </AppBar>
     </div>
   )
 };
