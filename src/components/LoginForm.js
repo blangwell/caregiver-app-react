@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Container from '@material-ui/core/Container';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -23,6 +25,7 @@ const postLogin = async (values) => {
 
 const useStyles = makeStyles(theme => ({
   root: {
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -61,7 +64,7 @@ const LoginForm = () => {
             id="email"
             name="email"
             type="email"
-            label="Email*" 
+            label="Email Address *" 
             variant="outlined"
             margin="normal"
             fullWidth
@@ -75,7 +78,7 @@ const LoginForm = () => {
             id="password"
             name="password"
             type="password"
-            label="Password*"
+            label="Password *"
             variant="outlined" 
             margin="normal"
             fullWidth
@@ -84,6 +87,10 @@ const LoginForm = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
           />
           <Button 
             color="primary" 
