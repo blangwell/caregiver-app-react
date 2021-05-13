@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect, useLocation } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import axios from 'axios';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import jwt_decode from 'jwt-decode';
@@ -20,7 +20,7 @@ function App() {
       const decoded = jwt_decode(token);
       console.log(decoded);
       // check expiration on decoded token
-      if (!token || decoded.exp < Math.floor(Date.now() / 1000)) setCurrentUser(null);
+      if (decoded.exp < Math.floor(Date.now() / 1000)) setCurrentUser(null);
     }
   }, [location]);
 
@@ -36,7 +36,7 @@ function App() {
       localStorage.setItem('jwt', token);
       const decoded = jwt_decode(token);
       console.log(decoded)
-      setCurrentUser(decoded);
+      await setCurrentUser(decoded);
     } catch (err) {
       console.log(err);
     };
