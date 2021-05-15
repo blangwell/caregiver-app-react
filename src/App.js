@@ -9,18 +9,26 @@ import LoginForm from './components/LoginForm';
 import Nav from './components/Nav';
 import SignupForm from './components/SignupForm';
 import Profile from './components/Profile';
+import Chart from './components/Chart';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const location = useLocation();
+  const jwtFromLocalStorage = localStorage.getItem('jwt');
 
   useEffect(() => {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      const decoded = jwt_decode(token);
+    if (jwtFromLocalStorage) {
+      const decoded = jwt_decode(jwtFromLocalStorage);
+      async function awaitUserStateUpdate() {
+        await setCurrentUser(decoded);
+      }
       console.log(decoded);
       // check expiration on decoded token
-      if (decoded.exp < Math.floor(Date.now() / 1000)) setCurrentUser(null);
+      if (decoded.exp < Math.floor(Date.now() / 1000)) {
+        setCurrentUser(null);
+        localStorage.removeItem('jwt');
+      }
+      awaitUserStateUpdate();
     }
   }, [location]);
 
@@ -60,11 +68,12 @@ function App() {
         <Route path="/signup">
           <SignupForm currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogin={handleLogin} />
         </Route>
-        <Route 
-          path="/profile"
-          // render={(props) => currentUser ? <Profile {...props} currentUser={currentUser} /> : <Redirect to="/login" /> }
-        >
+        <Route path="/profile">
           { currentUser ? <Profile currentUser={currentUser} /> : <Redirect to="/login" /> }
+        </Route>
+        <Route path="/chart/new">
+          {/* { currentUser ? <Chart /> : <Redirect to="/login" /> } */}
+          <Chart />
         </Route>
         <Route path="/">
           <Home />

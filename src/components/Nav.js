@@ -63,6 +63,13 @@ export default function Nav(props) {
         >
           <ListItemText primary="Profile" />
         </ListItem>
+        <ListItem
+          button
+          component={ Link }
+          to="/chart/new"
+        >
+          <ListItemText primary="New Chart" />
+        </ListItem>
       </List>
       <Divider />
       <List>
