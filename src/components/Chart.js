@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
@@ -10,24 +11,10 @@ import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import * as Yup from 'yup';
 
 import Nutrition from './Nutrition';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(4),  
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  thumb: {
-    "& span[class*='PrivateValueLabel-circle']": {
-      width: 50,
-      height: 50,
-      position: 'relative',
-      left: -9,
-      top: -17,
-    },
-  }
-}));
+import Hygiene from './Hygiene';
+import Mobility from './Mobility';
+import Toileting from './Toileting';
+import LabeledCheckbox from './LabeledCheckbox';
 
 const sleepMarks = [
   {
@@ -54,12 +41,23 @@ const painMarks = [
 const validationSchema = Yup.object({
   sleep: Yup.number('must be a number'),
   fluidIntake: Yup.number('must be a number')
-})
+});
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    marginTop: theme.spacing(4),  
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+}));
+
 
 const Chart = props => {
+  const [pain, setPain] = useState(false);
+
   const now = new Date();
   const dateTimeString = new Date().toString();
-
   const classes = useStyles();
 
   const formik = useFormik({
@@ -77,42 +75,53 @@ const Chart = props => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <Container maxWidth="sm">
-      <div className={classes.root}>
+    <div className={classes.root}>
       <Typography variant="h4" component="h1">
         New Chart
       </Typography>
-        <KeyboardDateTimePicker
-          maxDate={now}
-          value={formik.values.dateTime}
-        />
-        <Typography variant="h5">
-          Sleep
-        </Typography>
-        <Slider 
-          defaultValue={0}
-          min={0}
-          max={24}
-          step={.5}
-          valueLabelDisplay="auto"
-          marks={sleepMarks}
-          color="secondary"
-          // valueLabelFormat={value => <div>{`${value} hrs`}</div>}
-          // className={classes.thumb}
-        />
-        <Typography variant="h5">
-          Pain Level
-        </Typography>
-        <Slider 
-          defaultValue={0}
-          min={0}
-          max={10}
-          marks={painMarks}
-          color="secondary"
-          valueLabelDisplay="auto"
-        />
-
-        <Nutrition />
-      </div>
+      <KeyboardDateTimePicker
+        maxDate={now}
+        value={formik.values.dateTime}
+      />
+      <Typography variant="h5">
+        Sleep
+      </Typography>
+      <Slider 
+        defaultValue={0}
+        min={0}
+        max={24}
+        step={.5}
+        valueLabelDisplay="auto"
+        marks={sleepMarks}
+        color="secondary"
+      />
+      <LabeledCheckbox 
+        name="pain" 
+        color="primary" 
+        label="In pain?" 
+        handleClick={() => setPain(!pain)}
+      />
+      { pain ? (
+        <>
+          <Typography variant="h5">
+            Pain Level
+          </Typography>
+          <Slider 
+            defaultValue={0}
+            min={0}
+            max={10}
+            marks={painMarks}
+            color="secondary"
+            valueLabelDisplay="auto"
+          />
+        </>
+        ) : null
+      }
+      <Nutrition />
+      <Hygiene />
+      <Mobility />
+      <Toileting />
+    </div>
     </Container>
     </MuiPickersUtilsProvider>
   )
