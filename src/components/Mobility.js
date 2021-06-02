@@ -1,10 +1,10 @@
-import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import LabeledCheckbox from './LabeledCheckbox';
+import NotesField from './NotesField';
 
 const Mobility = props => {
   return (
-    <Container maxWidth="sm">
+    <div className={props.classes.chartSection}>
       <Typography variant="h5">
         Mobility
       </Typography>
@@ -12,7 +12,8 @@ const Mobility = props => {
       <LabeledCheckbox name="ambulate" color="primary" label="Ambulate" />
       <LabeledCheckbox name="walker" color="primary" label="Walker" />
       <LabeledCheckbox name="wheelchair" color="primary" label="Wheelchair" />
-    </Container>
+      <NotesField name="mobilityNotes" />
+    </div>
   );
 };
 
