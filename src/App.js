@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import jwt_decode from 'jwt-decode';
 import Home from './components/Home';
 import LoginForm from './components/LoginForm';
+import LoginFormReactHookForm from './components/LoginFormReactHookForm';
 import Nav from './components/Nav';
 import SignupForm from './components/SignupForm';
 import Profile from './components/Profile';
@@ -63,7 +64,8 @@ function App() {
       <Nav currentUser={currentUser} handleLogout={handleLogout} />
       <Switch>
         <Route path="/login">
-          <LoginForm currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogin={handleLogin} />
+          {/* <LoginForm currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogin={handleLogin} /> */}
+          <LoginFormReactHookForm currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogin={handleLogin} />
         </Route>
         <Route path="/signup">
           <SignupForm currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogin={handleLogin} />
